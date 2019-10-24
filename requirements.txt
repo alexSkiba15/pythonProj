@@ -1,0 +1,15 @@
+Django==2.2.6
+gunicorn
+dj-database-url
+whitenoise
+psycopg2-binary
+djangorestframework
+django-bootstrap4
+social-auth-app-django
+pillow
+easy-thumbnails
+django-cleanup
+django-simple-captcha
+django-cors-headers
+libpq-dev
+postgres

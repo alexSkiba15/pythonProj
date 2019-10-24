@@ -1,0 +1,13 @@
+# Created by .ignore support plugin (hsz.mobi)
+.gitignore
+.idea/.gitignore
+.idea/ProjectDjango.iml
+.idea/dataSources.xml
+.idea/datalore.xml
+.idea/git_toolbox_prj.xml
+.idea/inspectionProfiles/
+.idea/misc.xml
+.idea/modules.xml
+__pycache__/
+venv
+.idea
