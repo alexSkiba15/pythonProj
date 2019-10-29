@@ -11,5 +11,5 @@ easy-thumbnails
 django-cleanup
 django-simple-captcha
 django-cors-headers
-libpq-dev
 postgres
+django-environ

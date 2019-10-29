@@ -54,10 +54,9 @@ MIDDLEWARE = [
 ]
 
 CORS_ORIGIN_ALLOW_ALL = False
-CORS_ORIGIN_WHITELIST = (
-    'localhost:4200',
-)
-
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:4200'
+]
 ROOT_URLCONF = 'ProjectDjango.urls'
 
 TEMPLATES = [
@@ -86,11 +85,11 @@ WSGI_APPLICATION = 'ProjectDjango.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'cars_table',
+        'NAME': 'postgres',
         'USER': 'postgres',
-        'PASSWORD': 'cfif15cfif',
+        'PASSWORD': '123456',
         'HOST': 'localhost',
-        'PORT': '5432',
+        'PORT': '5432'
     }
 }
 

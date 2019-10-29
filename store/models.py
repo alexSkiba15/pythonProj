@@ -24,7 +24,7 @@ class Car(models.Model):
     price = models.FloatField(max_length=9, blank=False, default=0)
     date = models.DateField(blank=False)
     ownerId = models.ForeignKey(Owner, on_delete=models.CASCADE, related_name='cars_owner',
-                                verbose_name='Owner', null=True)
+                                verbose_name='Owner', null=True, blank=True)
 
     class Meta:
         verbose_name_plural = 'Cars'
