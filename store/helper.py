@@ -1,13 +1,19 @@
+import logging
+
+import requests
+import datetime
+import re
+
+from bs4 import BeautifulSoup
 from rest_framework.parsers import JSONParser
+from rest_framework.response import Response
 
 from store.models import Car, Owner
 from store.serializers import CarsSerializer, OwnerSerializer
-from rest_framework.response import Response
 
 
 def get_cars():
     cars_serializer = CarsSerializer(Car.objects.all(), many=True)
-
     return Response({
         "cars": cars_serializer.data,
         "error": ''
@@ -139,3 +145,63 @@ def create_owner(request):
         "result": 0,
         "error": 'error'
     })
+
+
+def scraper_cars():
+    k = 0
+    try:
+        for page in range(3):
+            url = f'https://planetavto.ua/ru/Harkivska/page={page};'
+            response = requests.get(url, headers={
+                'User-Agent': "Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.17 (KHTML, like Gecko) "
+                              "Chrome/24.0.1312.27 Safari/537.17"})
+            soup = BeautifulSoup(response.text, 'html.parser')
+            table_cars = soup.find('section', class_='main_products').findAll('article', class_='product_item')
+            for car in table_cars:
+                k += 1
+                print(f'Car - {k}')
+                brand_model = car.find('a', class_='prod-link').text
+                brand_model_str = brand_model.__str__()
+                t = re.search(r'([\w-]+) (.+)', brand_model_str)
+                brand = t.group(1).capitalize()
+                model = t.group(2).capitalize()
+
+                year_ = car.find('span', class_='year-show').text
+                year = int(year_[2:])
+
+                car_id = car.find('a', class_='prod-link').get('id')
+                price = __scraper_price(car_id)
+
+                det = datetime.date(year, 1, 1)
+
+                data = {
+                    'brand': brand,
+                    'model': model,
+                    'price': price,
+                    'date': det
+                }
+
+                car_serializer = CarsSerializer(data=data)
+
+                if car_serializer.is_valid():
+                    car_serializer.save()
+    except Exception as e:
+        logging.error(f'Failed. - {e}')
+
+    return Response({
+        "result": 1,
+        "error": 'error'
+    })
+
+
+def __scraper_price(car_id):
+    try:
+        url = f'https://planetavto.ua/ru/products/{car_id}'
+        response = requests.get(url, headers={
+            'User-Agent': "Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.17 (KHTML, like Gecko) "
+                          "Chrome/24.0.1312.27 Safari/537.17"})
+        soup = BeautifulSoup(response.text, 'html.parser')
+        price_car = soup.find('p', class_='full_price').find('b').text
+        return int(price_car.replace(' ', ''))
+    except Exception as e:
+        logging.error(f'Failed. - {e}')
