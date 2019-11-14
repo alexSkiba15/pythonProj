@@ -1,4 +1,5 @@
 from django.db import models
+import datetime
 
 
 class Owner(models.Model):
@@ -22,7 +23,7 @@ class Car(models.Model):
     brand = models.CharField(max_length=10, blank=False, default='')
     model = models.CharField(max_length=15, blank=False, default='')
     price = models.FloatField(max_length=9, blank=False, default=0)
-    date = models.DateField(blank=False)
+    date = models.DateField(blank=False, default=datetime.date.today)
     ownerId = models.ForeignKey(Owner, on_delete=models.CASCADE, related_name='cars_owner',
                                 verbose_name='Owner', null=True, blank=True)
 
