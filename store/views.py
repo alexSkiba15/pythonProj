@@ -3,7 +3,7 @@ from rest_framework.decorators import api_view
 
 from store.models import Car, Owner
 from store.helper import get_cars, get_car_for_edit, update_car, get_owners, create_car, delete_car, \
-    get_cars_with_owner, get_owner_for_edit, update_owner, delete_owner, create_owner, scraper_cars
+    get_cars_with_owner, get_owner_for_edit, update_owner, delete_owner, create_owner, scraper_cars, create_user
 
 
 @api_view(['GET'])
@@ -57,3 +57,8 @@ def owner_view(request, owner_id=None):
 @api_view(['GET'])
 def scraper_car(request):
     return scraper_cars()
+
+
+@api_view(['POST'])
+def create_users(request):
+    return create_user(request)

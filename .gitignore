@@ -11,3 +11,13 @@ store/__pycache__/
 store/migrations/__pycache__/
 templates/
 venv/
+.idea/ProjectDjango.iml
+.idea/dataSources.xml
+.idea/datalore.xml
+.idea/git_toolbox_prj.xml
+.idea/inspectionProfiles/
+.idea/misc.xml
+.idea/modules.xml
+.idea/other.xml
+.idea/vcs.xml
+db.sqlite3

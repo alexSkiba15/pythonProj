@@ -9,7 +9,7 @@ from rest_framework.parsers import JSONParser
 from rest_framework.response import Response
 
 from store.models import Car, Owner
-from store.serializers import CarsSerializer, OwnerSerializer
+from store.serializers import CarsSerializer, OwnerSerializer, UserSerializer
 
 
 def get_cars():
@@ -59,7 +59,6 @@ def get_owners():
 def create_car(request):
     car_data = JSONParser().parse(request)
     car_serializer = CarsSerializer(data=car_data)
-    print(car_data)
     if car_serializer.is_valid():
         car_serializer.save()
 
@@ -105,7 +104,6 @@ def get_owner_for_edit(owner):
 def update_owner(owner, request):
     owner_data = JSONParser().parse(request)
     owner_serializer = OwnerSerializer(owner, data=owner_data)
-    print('im here')
     if owner_serializer.is_valid():
         owner_serializer.save()
 
@@ -132,9 +130,25 @@ def delete_owner(owner):
 def create_owner(request):
     owner_data = JSONParser().parse(request)
     owner_serializer = OwnerSerializer(data=owner_data)
-    print(owner_data)
     if owner_serializer.is_valid():
         owner_serializer.save()
+
+        return Response({
+            "result": 1,
+            "error": ''
+        })
+
+    return Response({
+        "result": 0,
+        "error": 'error'
+    })
+
+
+def create_user(request):
+    user_data = JSONParser().parse(request)
+    user_serializer = UserSerializer(data=user_data)
+    if user_serializer.is_valid():
+        user_serializer.save()
 
         return Response({
             "result": 1,
@@ -150,8 +164,9 @@ def create_owner(request):
 def scraper_cars():
     k = 0
     try:
-        for page in range(3):
-            url = f'https://planetavto.ua/ru/Harkivska/page={page};'
+        page = 2
+        for page in range(5):
+            url = f'https://planetavto.ua/ru/page={page};'
             response = requests.get(url, headers={
                 'User-Agent': "Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.17 (KHTML, like Gecko) "
                               "Chrome/24.0.1312.27 Safari/537.17"})

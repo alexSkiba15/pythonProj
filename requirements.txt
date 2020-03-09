@@ -1,6 +1,6 @@
 requests
 bs4
-Django==2.2.8
+Django
 gunicorn
 dj-database-url
 whitenoise
@@ -18,3 +18,4 @@ django-environ
 lxml
 invoke
 datetime
+coverage
