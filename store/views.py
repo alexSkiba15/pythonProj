@@ -11,6 +11,7 @@ def cars_list(request):
     return get_cars()
 
 
+
 @api_view(['GET', 'POST', 'PUT', 'DELETE'])
 def car_view(request, car_id=None):
     if car_id is not None:
