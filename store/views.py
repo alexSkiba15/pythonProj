@@ -15,7 +15,6 @@ def cars_list(request):
 def car_view(request, car_id=None):
     if car_id is not None:
         try:
-
             car = Car.objects.get(id=car_id)
         except Car.DoesNotExist:
             return HttpResponse(status=404)
